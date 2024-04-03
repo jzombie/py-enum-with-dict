@@ -68,5 +68,37 @@ class TestEnumWithDict(unittest.TestCase):
         with self.assertRaises(ValueError):
             IncompleteEnum.validate_mapping(incomplete_mapping)
 
+    def test_validate_mapping_extended(self):
+        """Test validation fails with an extended mapping."""
+
+        class ExtendEnum(EnumWithDict):
+            A = 1
+            B = 2
+            C = 3  # C is not included in the mapping, should trigger validation failure
+
+        dict_mapping = ExtendEnum.to_dict()
+
+        # Add a new value that doesn't correspond to any enum member
+        dict_mapping['UNDEFINED'] = 'undefined'
+
+        # Now, validation should fail because of the extra key
+        with self.assertRaises(ValueError) as context:
+            ExtendEnum.validate_mapping(dict_mapping)
+
+    def test_validate_self_mapping(self):
+        """Test validation succeeds against self."""
+
+        class Mixed(EnumWithDict):
+            NUMBER = 1,
+            ZERO = 0,
+            STRING = "string",
+            TRUE = True,
+            FALSE = False,
+            FUNCTION = len
+
+        # Convert enum to dict and validate
+        dict_mapping = Mixed.to_dict()
+        self.assertTrue(Mixed.validate_mapping(dict_mapping))
+
 if __name__ == '__main__':
     unittest.main()

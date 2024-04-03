@@ -22,13 +22,20 @@ class EnumWithDict(Enum):
         return cls.to_dict().get(key, default)
 
     @classmethod
-    def validate_mapping(cls, mapping: Dict[Any, Any]) -> bool:
+    def validate_mapping(cls, mapping: Dict[str, Any]) -> bool:
         """Validate that every enum member has a mapping, raise error if any are missing."""
-        missing = [member for member in cls if member.value not in mapping]
+        # Check if the names of enum members are in the mapping's keys
+        missing = [member.name for member in cls if member.name not in mapping]
         if missing:
-            # Convert member values to strings to ensure compatibility with join
-            missing_keys = ', '.join([str(member.value) for member in missing])
+            # missing now contains the names of the enum members that are not keys in the mapping
+            missing_keys = ', '.join(missing)  # Joining missing member names directly
             raise ValueError(f"Missing mappings for: {missing_keys}")
+        
+        # Check for extra keys in the mapping
+        extra_keys = [key for key in mapping if key not in {member.name for member in cls}]
+        if extra_keys:
+            # extra_keys now contains the extra keys found in the mapping
+            extra_keys_str = ', '.join(extra_keys)  # Joining extra keys for the error message
+            raise ValueError(f"Extra keys found in mapping: {extra_keys_str}")
+        
         return True
-
-  
