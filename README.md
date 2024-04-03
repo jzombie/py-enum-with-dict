@@ -15,6 +15,37 @@ Install `EnumWithDict` using pip:
 pip install enum_with_dict
 ```
 
+## Usage
+
+### Defining an Enum with `EnumWithDict`
+
+```python
+from enum_with_dict import EnumWithDict
+
+class Color(EnumWithDict):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
+```
+
+### Converting an Enum to a Dictionary
+
+```python
+color_dict = Color.to_dict()
+print(color_dict)
+# Output: {'RED': 'red', 'GREEN': 'green', 'BLUE': 'blue'}
+```
+
+### Getting the Initial Enum Value
+
+```python
+initial_color = Color.get_initial()
+print(initial_color)
+# Output: 'red'
+```
+
 ## LICENSE
 
-[MIT](LICENSE)
+`EnumWithDict` is released under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
