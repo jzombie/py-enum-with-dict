@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Dict, List, KeysView, ValuesView
+from typing import Any, Dict, List, KeysView, ValuesView, Union
 
 
 class EnumWithDict(Enum):
@@ -22,7 +22,7 @@ class EnumWithDict(Enum):
         return cls.to_dict().get(key, default)
     
     @classmethod
-    def keys(cls, as_list = True) -> List[str] | KeysView[str]:
+    def keys(cls, as_list = True) -> Union[List[str], KeysView[str]]:
         """
         Return a view of the keys of the enum class as a list or as a `KeysView`.
 
@@ -49,7 +49,7 @@ class EnumWithDict(Enum):
             return keys_view
     
     @classmethod
-    def values(cls, as_list = True) -> ValuesView:
+    def values(cls, as_list = True) -> Union[List[any], ValuesView]:
         """
         Return a view of the values of the enum class as a list or as a `ValuesView`.
 
