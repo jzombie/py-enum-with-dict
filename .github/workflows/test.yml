@@ -34,4 +34,4 @@ jobs:
     - name: Run tests
       run: |
         # Add command to run your tests, e.g., pytest or unittest
-        python -m unittest discover -s tests
+        python -m unittest discover -s test
