@@ -6,6 +6,8 @@
 
 - **to_dict**: Convert an enum class to a dictionary representation, mapping member names to their values.
 - **get_initial**: Retrieve the first value defined in the enum, useful for cases where a default or initial value is needed.
+- **get**: Mimics the dictionary `get` method, allowing retrieval of enum values with an optional default fallback.
+
 
 ## Installation
 
@@ -44,6 +46,29 @@ initial_color = Color.get_initial()
 print(initial_color)
 # Output: 'red'
 ```
+
+### Using the `get` Method
+
+Retrieve an enum value by its name, with an option to specify a default value if the name does not exist.
+
+## Get a value for an existing key
+
+```python
+print(Color.get('RED'))  # Output: 'red'
+```
+
+## Get a value for a non-existing key with a default value
+
+```python
+print(Color.get('PURPLE', default='unknown'))  # Output: 'unknown'
+```
+
+## Get a value for a non-existing key, falling back to the initial value
+
+```python
+print(Color.get('PURPLE'))  # Output: 'red'
+```
+
 
 ## LICENSE
 
