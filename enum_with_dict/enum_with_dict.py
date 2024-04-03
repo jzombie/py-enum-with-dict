@@ -22,7 +22,7 @@ class EnumWithDict(Enum):
         return cls.to_dict().get(key, default)
 
     @classmethod
-    def validate_mapping(cls, mapping: Dict[str, Any]) -> bool:
+    def validate_mapping_keys(cls, mapping: Dict[str, Any]) -> bool:
         """Validate that every enum member has a mapping, raise error if any are missing."""
         # Check if the names of enum members are in the mapping's keys
         missing = [member.name for member in cls if member.name not in mapping]
@@ -39,3 +39,26 @@ class EnumWithDict(Enum):
             raise ValueError(f"Extra keys found in mapping: {extra_keys_str}")
         
         return True
+
+    @classmethod
+    def map(cls, key_mapping: Dict[Enum, Any]) -> Dict[Enum, Any]:
+        """Map enum members to values based on the provided dictionary.
+
+        Args:
+            key_mapping (Dict[Enum, Any]): A dictionary mapping enum members to new values.
+
+        Returns:
+            Dict[Enum, Any]: A dictionary containing the mapped enum members with their corresponding new values.
+
+        Raises:
+            ValueError: If any enum members are missing in the provided mapping.
+        """
+        # Validate the new mapping
+        cls.validate_mapping_keys({**cls.to_dict(), **{member.name: value for member, value in key_mapping.items()}})
+        
+        # Map enum members to values
+        mapped_values = {}
+        for member in cls:
+            if member in key_mapping:
+                mapped_values[member.value] = key_mapping[member]
+        return mapped_values
