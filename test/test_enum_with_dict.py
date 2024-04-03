@@ -53,5 +53,92 @@ class TestEnumWithDict(unittest.TestCase):
         self.assertTrue(callable(Actions.get('ACTION_C', default=str)))
         self.assertEqual(Actions.get('ACTION_C'), EnumWithDict)  # Using initial value as default
 
+    def test_validate_mapping_keys_incomplete(self):
+        """Test validation fails with an incomplete mapping."""
+        class IncompleteEnum(EnumWithDict):
+            A = 1
+            B = 2
+            C = 3  # C is not included in the mapping, should trigger validation failure
+
+        incomplete_mapping = {
+            'A': 1,
+            'B': 2,
+        }
+
+        with self.assertRaises(ValueError):
+            IncompleteEnum.validate_mapping_keys(incomplete_mapping)
+
+    def test_validate_mapping_keys_extended(self):
+        """Test validation fails with an extended mapping."""
+
+        class ExtendEnum(EnumWithDict):
+            A = 1
+            B = 2
+            C = 3  # C is not included in the mapping, should trigger validation failure
+
+        dict_mapping = ExtendEnum.to_dict()
+
+        # Add a new value that doesn't correspond to any enum member
+        dict_mapping['UNDEFINED'] = 'undefined'
+
+        # Now, validation should fail because of the extra key
+        with self.assertRaises(ValueError) as context:
+            ExtendEnum.validate_mapping_keys(dict_mapping)
+
+    def test_validate_self_mapping(self):
+        """Test validation succeeds against self."""
+
+        class Mixed(EnumWithDict):
+            NUMBER = 1,
+            ZERO = 0,
+            STRING = "string",
+            TRUE = True,
+            FALSE = False,
+            FUNCTION = len,
+            NONE = None
+
+        # Convert enum to dict and validate
+        dict_mapping = Mixed.to_dict()
+        self.assertTrue(Mixed.validate_mapping_keys(dict_mapping))
+
+    def test_map(self):
+        """Test mapping."""
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+        
+        # Define the key mapping
+        key_mapping = {
+            TestEnum.VALUE_1: "some_new_value",
+            TestEnum.VALUE_2: "another_new_value",
+            TestEnum.VALUE_3: "a new value"
+        }
+
+        self.assertEqual(TestEnum.map(key_mapping), {
+            TestEnum.VALUE_1.value: "some_new_value",
+            TestEnum.VALUE_2.value: "another_new_value",
+            TestEnum.VALUE_3.value: "a new value"
+        })
+
+    def test_map_invalid_key(self):
+        """Test mapping enum members to values with invalid keys."""
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+        
+        # Define the key mapping
+        key_mapping = {
+            TestEnum.VALUE_1: "some_new_value",
+            TestEnum.VALUE_2: "another_new_value",
+            TestEnum.VALUE_3.value: "a new value"
+        }
+
+        # Perform the mapping and validate
+        with self.assertRaises(AttributeError):
+            TestEnum.map(key_mapping)
+
+
 if __name__ == '__main__':
     unittest.main()

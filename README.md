@@ -7,6 +7,8 @@
 - **to_dict**: Convert an enum class to a dictionary representation, mapping member names to their values.
 - **get_initial**: Retrieve the first value defined in the enum, useful for cases where a default or initial value is needed.
 - **get**: Mimics the dictionary `get` method, allowing retrieval of enum values with an optional default fallback.
+- **validate_mapping_keys**: Ensure that a provided mapping includes all enum values, raising an error for any missing mappings.
+- **map**: Map enum members to values based on the provided dictionary.
 
 
 ## Installation
@@ -51,24 +53,69 @@ print(initial_color)
 
 Retrieve an enum value by its name, with an option to specify a default value if the name does not exist.
 
-## Get a value for an existing key
+#### Get a value for an existing key
 
 ```python
 print(Color.get('RED'))  # Output: 'red'
 ```
 
-## Get a value for a non-existing key with a default value
+### Get a value for a non-existing key with a default value
 
 ```python
 print(Color.get('PURPLE', default='unknown'))  # Output: 'unknown'
 ```
 
-## Get a value for a non-existing key, falling back to the initial value
+### Get a value for a non-existing key, falling back to the initial value
 
 ```python
 print(Color.get('PURPLE'))  # Output: 'red'
 ```
 
+## Ensuring Completeness of Mappings with `validate_mapping_keys`
+
+Validate that a provided mapping covers all enum members.
+
+```python
+# Assuming a partial mapping for demonstration
+partial_mapping = {'RED': 'Rouge', 'GREEN': 'Vert'}
+
+try:
+    Color.validate_mapping_keys(partial_mapping)
+except ValueError as e:
+    print(e)
+# Expected output: Missing mappings for: BLUE
+```
+
+### Mapping Enum Members with `map`
+
+Map enum members to values based on the provided dictionary. This map is validated to ensure that all of the enum keys are used and there are no extra.
+
+Note: At this time, the value types are not validated, just the key exists.
+
+
+```python
+# Define the key mapping
+key_mapping = {
+    TestEnum.VALUE_1: "some_new_value",
+    TestEnum.VALUE_2: "another_new_value",
+    TestEnum.VALUE_3: "a new value"
+}
+
+# Perform the mapping and validate
+mapped_values = TestEnum.map(key_mapping)
+
+# ----- The above is slightly easier to write than the following -----
+
+# Validate the mapped values
+expected_values = {
+    TestEnum.VALUE_1.value: "some_new_value",
+    TestEnum.VALUE_2.value: "another_new_value",
+    TestEnum.VALUE_3.value: "a new value"
+}
+
+assert mapped_values == expected_values
+
+```
 
 ## LICENSE
 
