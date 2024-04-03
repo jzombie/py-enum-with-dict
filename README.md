@@ -105,7 +105,7 @@ key_mapping = {
 # Perform the mapping and validate
 mapped_values = TestEnum.map(key_mapping)
 
-# ----- The above is slightly easier to write than the following -----
+# ----- The above is equivalent to the following: -----
 
 # Validate the mapped values
 expected_values = {
