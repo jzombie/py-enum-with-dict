@@ -98,6 +98,9 @@ class EnumWithDict(Enum):
     def map(cls, key_mapping: Dict[Enum, Any]) -> Dict[Enum, Any]:
         """Map enum members to values based on the provided dictionary.
 
+        Note! This does not change the values in the Enum itself, but returns a
+        dictionary with the same keys and newly mapped values.
+
         Args:
             key_mapping (Dict[Enum, Any]): A dictionary mapping enum members to new values.
 
@@ -114,5 +117,5 @@ class EnumWithDict(Enum):
         mapped_values = {}
         for member in cls:
             if member in key_mapping:
-                mapped_values[member.value] = key_mapping[member]
+                mapped_values[member.name] = key_mapping[member]
         return mapped_values
