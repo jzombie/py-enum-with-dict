@@ -9,7 +9,8 @@
 - **get**: Mimics the dictionary `get` method, allowing retrieval of enum values with an optional default fallback.
 - **validate_mapping_keys**: Ensure that a provided mapping includes all enum values, raising an error for any missing mappings.
 - **map**: Map enum members to values based on the provided dictionary.
-
+- **keys**: Retrieve the keys of the enum class as a list or as a KeysView.
+- **values**: Retrieve the values of the enum class as a list or as a ValuesView.
 
 ## Installation
 
@@ -104,7 +105,7 @@ key_mapping = {
 # Perform the mapping and validate
 mapped_values = TestEnum.map(key_mapping)
 
-# ----- The above is slightly easier to write than the following -----
+# ----- The above is equivalent to the following: -----
 
 # Validate the mapped values
 expected_values = {
@@ -115,6 +116,34 @@ expected_values = {
 
 assert mapped_values == expected_values
 
+```
+
+## Retrieving Keys and Values with `keys()` and `values()`
+
+Retrieve the keys and values of the enum class as a list or as a `KeysView` or `ValuesView`.
+
+### Get keys as a list
+
+```python
+keys_list = Color.keys()
+```
+
+### Get keys as a `KeysView`
+
+```python
+keys_view = Color.keys(as_list=False)
+```
+
+### Get values as a list
+
+```python
+values_list = Color.values()
+```
+
+### Get values as a ValuesView
+
+```python
+values_view = Color.values(as_list=False)
 ```
 
 ## LICENSE
