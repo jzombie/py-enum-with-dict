@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='enum_with_dict',
-    version='0.2.0',
+    version='0.2.1',
     packages=find_packages(),
     author='Jeremy Harris',
     author_email='jeremy.harris@zenosmosis.com',
