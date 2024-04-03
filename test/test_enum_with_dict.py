@@ -116,9 +116,9 @@ class TestEnumWithDict(unittest.TestCase):
         }
 
         self.assertEqual(TestEnum.map(key_mapping), {
-            TestEnum.VALUE_1.value: "some_new_value",
-            TestEnum.VALUE_2.value: "another_new_value",
-            TestEnum.VALUE_3.value: "a new value"
+            TestEnum.VALUE_1.name: "some_new_value",
+            TestEnum.VALUE_2.name: "another_new_value",
+            TestEnum.VALUE_3.name: "a new value"
         })
 
     def test_map_invalid_key(self):
