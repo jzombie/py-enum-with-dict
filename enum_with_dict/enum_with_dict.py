@@ -100,7 +100,7 @@ class EnumWithDict(Enum):
 
         This mapping operation does not alter the values within the Enum itself; instead, it generates a new dictionary with the same keys and updated values.
 
-        Internally, validate_mapping_keys is invoked to confirm that the keys align with the Enum members, but the value types remain arbitrary.
+        Internally, `validate_mapping_keys` is invoked to confirm that the keys align with the Enum members, but the value types remain arbitrary.
 
         Args:
             key_mapping (Dict[Enum, Any]): A dictionary mapping enum members to new values.

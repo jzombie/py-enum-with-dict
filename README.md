@@ -93,7 +93,7 @@ Map enum members to values using the provided dictionary.
 
 This mapping operation does not alter the values within the Enum itself; instead, it generates a new dictionary with the same keys and updated values.
 
-Internally, validate_mapping_keys is invoked to confirm that the keys align with the Enum members, but the value types remain arbitrary.
+Internally, `validate_mapping_keys` is invoked to confirm that the keys align with the Enum members, but the value types remain arbitrary.
 
 ```python
 # Define the key mapping
