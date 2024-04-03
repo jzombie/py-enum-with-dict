@@ -48,4 +48,3 @@ print(initial_color)
 ## LICENSE
 
 `EnumWithDict` is released under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
