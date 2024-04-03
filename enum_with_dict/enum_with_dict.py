@@ -18,3 +18,15 @@ class EnumWithDict(Enum):
         if default is None:
             default = cls.get_initial()
         return cls.to_dict().get(key, default)
+
+    @classmethod
+    def validate_mapping(cls, mapping):
+        """Validate that every enum member has a mapping, raise error if any are missing."""
+        missing = [member for member in cls if member.value not in mapping]
+        if missing:
+            # Convert member values to strings to ensure compatibility with join
+            missing_keys = ', '.join([str(member.value) for member in missing])
+            raise ValueError(f"Missing mappings for: {missing_keys}")
+        return True
+
+  

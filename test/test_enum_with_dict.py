@@ -53,5 +53,20 @@ class TestEnumWithDict(unittest.TestCase):
         self.assertTrue(callable(Actions.get('ACTION_C', default=str)))
         self.assertEqual(Actions.get('ACTION_C'), EnumWithDict)  # Using initial value as default
 
+    def test_validate_mapping_incomplete(self):
+        """Test validation fails with an incomplete mapping."""
+        class IncompleteEnum(EnumWithDict):
+            A = 1
+            B = 2
+            C = 3  # C is not included in the mapping, should trigger validation failure
+
+        incomplete_mapping = {
+            'A': 1,
+            'B': 2,
+        }
+
+        with self.assertRaises(ValueError):
+            IncompleteEnum.validate_mapping(incomplete_mapping)
+
 if __name__ == '__main__':
     unittest.main()
