@@ -139,6 +139,27 @@ class TestEnumWithDict(unittest.TestCase):
         with self.assertRaises(AttributeError):
             TestEnum.map(key_mapping)
 
+    def test_keys_retrieval(self):
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+
+        self.assertEqual(TestEnum.keys(), ['VALUE_1', 'VALUE_2', 'VALUE_3'])
+
+        self.assertNotEqual(TestEnum.keys(as_list = False), ['VALUE_1', 'VALUE_2', 'VALUE_3'])
+        self.assertEqual(list(TestEnum.keys(as_list = False)), ['VALUE_1', 'VALUE_2', 'VALUE_3'])
+
+    def test_values_retrieval(self):
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+
+        self.assertEqual(TestEnum.values(), [1,2,3])
+
+        self.assertNotEqual(TestEnum.values(as_list = False), [1,2,3])
+        self.assertEqual(list(TestEnum.values(as_list = False)), [1,2,3])
 
 if __name__ == '__main__':
     unittest.main()

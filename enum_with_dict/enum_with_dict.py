@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, ClassVar, Dict, Type
+from typing import Any, Dict, List, KeysView, ValuesView
 
 
 class EnumWithDict(Enum):
@@ -20,6 +20,60 @@ class EnumWithDict(Enum):
         if default is None:
             default = cls.get_initial()
         return cls.to_dict().get(key, default)
+    
+    @classmethod
+    def keys(cls, as_list = True) -> List[str] | KeysView[str]:
+        """
+        Return a view of the keys of the enum class as a list or as a `KeysView`.
+
+        Parameters:
+            as_list (bool, optional): If True, return keys as a list. If False, return keys as a `KeysView`.
+                                      Defaults to True.
+
+        Returns:
+            Union[List[str], KeysView[str]]: A list of keys if `as_list` is True, otherwise a `KeysView` object
+                                              containing the keys.
+
+        Example:
+            # Get keys as a list
+            keys_list = MyEnum.keys()
+
+            # Get keys as a `KeysView`
+            keys_view = MyEnum.keys(as_list=False)
+        """
+        keys_view = cls.to_dict().keys()
+
+        if as_list:
+            return list(keys_view)
+        else:
+            return keys_view
+    
+    @classmethod
+    def values(cls, as_list = True) -> ValuesView:
+        """
+        Return a view of the values of the enum class as a list or as a `ValuesView`.
+
+        Parameters:
+            as_list (bool, optional): If True, return values as a list. If False, return values as a `ValuesView`.
+                                      Defaults to True.
+
+        Returns:
+            Union[List[Any], ValuesView[Any]]: A list of values if `as_list` is True, otherwise a `ValuesView` object
+                                                containing the values.
+
+        Example:
+            # Get values as a list
+            values_list = MyEnum.values()
+
+            # Get values as a `ValuesView`
+            values_view = MyEnum.values(as_list=False)
+        """
+        values_view = cls.to_dict().values()
+
+        if as_list:
+            return list(values_view)
+        else:
+            return values_view
 
     @classmethod
     def validate_mapping_keys(cls, mapping: Dict[str, Any]) -> bool:
