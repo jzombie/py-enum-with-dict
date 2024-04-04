@@ -89,12 +89,12 @@ class TestEnumWithDict(unittest.TestCase):
         """Test validation succeeds against self."""
 
         class Mixed(EnumWithDict):
-            NUMBER = 1,
-            ZERO = 0,
-            STRING = "string",
-            TRUE = True,
-            FALSE = False,
-            FUNCTION = len,
+            NUMBER = 1
+            ZERO = 0
+            STRING = "string"
+            TRUE = True
+            FALSE = False
+            FUNCTION = len
             NONE = None
 
         # Convert enum to dict and validate
