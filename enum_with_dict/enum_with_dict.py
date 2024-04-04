@@ -121,12 +121,14 @@ class EnumWithDict(Enum):
         Raises:
             KeyError: If any enum members are missing in the provided mapping.
         """
-        # Validate the new mapping
-        cls.validate_mapping_keys({**cls.to_dict(), **{member.name: value for member, value in key_mapping.items()}})
-        
+       
         # Map enum members to values
         mapped_values = {}
         for member in cls:
             if member in key_mapping:
                 mapped_values[member.name] = key_mapping[member]
+
+        # Validate the provided key mapping contains all enum members
+        cls.validate_mapping_keys(mapped_values)
+
         return mapped_values

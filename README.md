@@ -17,7 +17,7 @@
 Install `EnumWithDict` using pip:
 
 ```bash
-pip install enum_with_dict
+pip install enum-with-dict
 ```
 
 ## Usage
