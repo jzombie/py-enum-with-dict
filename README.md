@@ -1,8 +1,8 @@
 # EnumWithDict
 
-`EnumWithDict` is a Python package that extends the standard library's `Enum` class to include `to_dict` and `get_initial` class methods. This enhancement allows for straightforward conversion of enum classes to dictionaries and provides easy access to the initial enum value, facilitating a more versatile use of enumerations in Python applications.
+`EnumWithDict` is a Python package that extends the standard library's Enum class to include `to_dict`, `get_initial`, and other class methods. This enhancement allows for the straightforward conversion of enum classes to dictionaries, easy access to the initial enum value, and additional functionalities such as retrieving enum values with a fallback option, validating mappings, and more.
 
-## Features
+## Extends Enum with the Following Methods:
 
 - **to_dict**: Convert an enum class to a dictionary representation, mapping member names to their values.
 - **get_initial**: Retrieve the first value defined in the enum, useful for cases where a default or initial value is needed.
