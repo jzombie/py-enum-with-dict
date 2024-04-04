@@ -77,20 +77,30 @@ class EnumWithDict(Enum):
 
     @classmethod
     def validate_mapping_keys(cls, mapping: Dict[str, Any]) -> bool:
-        """Validate that every enum member has a mapping, raise error if any are missing."""
+        """Validate that every enum member has a mapping, raising a KeyError if any are missing.
+        
+        Args:
+            mapping (Dict[str, Any]): The mapping dictionary to validate.
+
+        Returns:
+            bool: True if the mapping is valid (raises `KeyError` otherwise).
+
+        Raises:
+            KeyError: If any enum members are missing in the provided mapping.
+        """
         # Check if the names of enum members are in the mapping's keys
         missing = [member.name for member in cls if member.name not in mapping]
         if missing:
             # missing now contains the names of the enum members that are not keys in the mapping
             missing_keys = ', '.join(missing)  # Joining missing member names directly
-            raise ValueError(f"Missing mappings for: {missing_keys}")
+            raise KeyError(f"Missing mappings for: {missing_keys}")
         
         # Check for extra keys in the mapping
         extra_keys = [key for key in mapping if key not in {member.name for member in cls}]
         if extra_keys:
             # extra_keys now contains the extra keys found in the mapping
             extra_keys_str = ', '.join(extra_keys)  # Joining extra keys for the error message
-            raise ValueError(f"Extra keys found in mapping: {extra_keys_str}")
+            raise KeyError(f"Extra keys found in mapping: {extra_keys_str}")
         
         return True
 
@@ -109,7 +119,7 @@ class EnumWithDict(Enum):
             Dict[Enum, Any]: A dictionary containing the mapped enum members with their corresponding new values.
 
         Raises:
-            ValueError: If any enum members are missing in the provided mapping.
+            KeyError: If any enum members are missing in the provided mapping.
         """
         # Validate the new mapping
         cls.validate_mapping_keys({**cls.to_dict(), **{member.name: value for member, value in key_mapping.items()}})
