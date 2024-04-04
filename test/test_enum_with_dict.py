@@ -178,5 +178,48 @@ class TestEnumWithDict(unittest.TestCase):
         self.assertNotEqual(TestEnum.values(as_list = False), [1,2,3])
         self.assertEqual(list(TestEnum.values(as_list = False)), [1,2,3])
 
+    def test_get_with_mapping(self):
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+
+        custom_mapping = {
+            'VALUE_1': 'Mapped 1',
+            'VALUE_2': 'Mapped 2',
+            'VALUE_3': 'Mapped 3'
+        }
+
+        # Test getting a value from custom mapping
+        self.assertEqual(TestEnum.get('VALUE_1', mapping=custom_mapping), 'Mapped 1')
+
+        # Test getting a value without custom mapping
+        self.assertEqual(TestEnum.get('VALUE_3'), 3)
+
+        # Test getting a value with a default specified, when the key is not in the custom mapping or enum
+        self.assertEqual(TestEnum.get('VALUE_4', default='Default', mapping=custom_mapping), 'Default')
+
+        # Test getting a value without a default specified, when the key is not in the custom mapping or enum
+        # It should fall back to the initial value of the enum
+        self.assertEqual(TestEnum.get('VALUE_4', mapping=custom_mapping), 1)  # Initial value
+
+        # Validation should fail because of incomplete mapping
+        with self.assertRaises(KeyError) as context:
+            TestEnum.get('VALUE_2', mapping={
+                'VALUE_2': 'Mapped 2',
+            })
+
+        # Validation should fail because of empty mapping
+        with self.assertRaises(KeyError) as context:
+            TestEnum.get('VALUE_2', mapping={})
+
+        # Validation should fail because of empty mapping
+        with self.assertRaises(KeyError) as context:
+            invalid_custom_mapping = custom_mapping
+            invalid_custom_mapping['VALUE_4'] = 'Mapped 4'
+
+            TestEnum.get('VALUE_2', mapping=invalid_custom_mapping)
+
+
 if __name__ == '__main__':
     unittest.main()

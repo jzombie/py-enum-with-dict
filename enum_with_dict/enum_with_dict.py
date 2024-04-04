@@ -14,11 +14,31 @@ class EnumWithDict(Enum):
         return next(iter(cls.to_dict().values()))
 
     @classmethod
-    def get(cls, key: str, default: Any = None) -> Any:
-        """Get the value for the given key or return default or initial value."""
-        # If default is not provided, use the initial value
+    def get(cls, key: str, default: Any = None, mapping: Dict[str, Any] = None) -> Any:
+        """
+        Get the value for the given key from the optional mapping or the enum,
+        return default or initial value if not found.
+        
+        Args:
+            key (str): The key to look for.
+            default (Any, optional): The default value to return if the key is not found. 
+                                    If not provided, the initial enum value is used.
+            mapping (Dict[str, Any], optional): An optional mapping of keys to custom values.
+        
+        Returns:
+            Any: The value associated with the key, either from the mapping or the enum's default values.
+        """
+        # Use the initial value as the default if no default is provided
         if default is None:
             default = cls.get_initial()
+        
+        # If a mapping is provided, try to get the value from it
+        if mapping is not None:
+            cls.validate_mapping_keys(mapping)
+
+            return mapping.get(key, default)
+        
+        # Fallback to the enum's default values if no mapping is provided or the key is not in the mapping
         return cls.to_dict().get(key, default)
     
     @classmethod
