@@ -65,7 +65,7 @@ class TestEnumWithDict(unittest.TestCase):
             'B': 2,
         }
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             IncompleteEnum.validate_mapping_keys(incomplete_mapping)
 
     def test_validate_mapping_keys_extended(self):
@@ -82,7 +82,7 @@ class TestEnumWithDict(unittest.TestCase):
         dict_mapping['UNDEFINED'] = 'undefined'
 
         # Now, validation should fail because of the extra key
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(KeyError) as context:
             ExtendEnum.validate_mapping_keys(dict_mapping)
 
     def test_validate_self_mapping(self):
