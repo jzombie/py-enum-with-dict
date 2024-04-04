@@ -136,7 +136,24 @@ class TestEnumWithDict(unittest.TestCase):
         }
 
         # Perform the mapping and validate
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(KeyError):
+            TestEnum.map(key_mapping)
+
+    def test_incomplete_map(self):
+        """Test incomplete mapping enum members to values."""
+        class TestEnum(EnumWithDict):
+            VALUE_1 = 1
+            VALUE_2 = 2
+            VALUE_3 = 3
+        
+        # Define the key mapping
+        key_mapping = {
+            TestEnum.VALUE_1: "some_new_value",
+            TestEnum.VALUE_2: "another_new_value",
+        }
+
+        # Perform the mapping and validate
+        with self.assertRaises(KeyError):
             TestEnum.map(key_mapping)
 
     def test_keys_retrieval(self):
