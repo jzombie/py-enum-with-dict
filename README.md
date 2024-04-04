@@ -52,7 +52,7 @@ print(initial_color)
 
 ### Using the `get` Method
 
-Retrieve an enum value by its name, with an option to specify a default value if the name does not exist.
+Retrieve an enum value by its name, with an option to specify a default value if the name does not exist. Additionally, you can pass a custom mapping dictionary to retrieve a mapped value instead of the enum's default value.
 
 #### Get a value for an existing key
 
@@ -70,6 +70,15 @@ print(Color.get('PURPLE', default='unknown'))  # Output: 'unknown'
 
 ```python
 print(Color.get('PURPLE'))  # Output: 'red'
+```
+
+### Get a value using a custom mapping
+
+You can also use a custom mapping dictionary to retrieve a value. This is useful when you need to map enum members to different values dynamically.
+
+```python
+custom_mapping = {'RED': 'Rouge', 'GREEN': 'Vert', 'BLUE': 'Bleu'}
+print(Color.get('RED', mapping=custom_mapping))  # Output: 'Rouge'
 ```
 
 ## Ensuring Completeness of Mappings with `validate_mapping_keys`
