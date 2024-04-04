@@ -9,7 +9,7 @@ setup(
     description='Enum with to_dict method.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/jzombie/py_enum_with_dict',
+    url='https://github.com/jzombie/py-enum-with-dict',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
