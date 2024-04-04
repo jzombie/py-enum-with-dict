@@ -199,9 +199,9 @@ class TestEnumWithDict(unittest.TestCase):
         # Test getting a value with a default specified, when the key is not in the custom mapping or enum
         self.assertEqual(TestEnum.get('VALUE_4', default='Default', mapping=custom_mapping), 'Default')
 
-        # Test getting a value without a default specified, when the key is not in the custom mapping or enum
-        # It should fall back to the initial value of the enum
-        self.assertEqual(TestEnum.get('VALUE_4', mapping=custom_mapping), 1)  # Initial value
+        # Test getting a mapped value without a default specified, when the key is not in the custom mapping or enum
+        # It should fall back to the custom mapping value with the initial key of the enum
+        self.assertEqual(TestEnum.get('VALUE_4', mapping=custom_mapping), 'Mapped 1')  # Initial mapped value
 
         # Validation should fail because of incomplete mapping
         with self.assertRaises(KeyError) as context:

@@ -7,11 +7,21 @@ class EnumWithDict(Enum):
     def to_dict(cls) -> Dict[str, Any]:
         """Return a dictionary representation of the enum."""
         return {member.name: member.value for member in cls}
+    
+    @classmethod
+    def get_initial_key(cls) -> Any:
+        """Get the first key from the enum dictionary."""
+        return next(iter(cls.to_dict().keys()))
 
     @classmethod
-    def get_initial(cls) -> Any:
+    def get_initial_value(cls) -> Any:
         """Get the first value from the enum dictionary."""
         return next(iter(cls.to_dict().values()))
+    
+    @classmethod
+    def get_initial(cls) -> Any:
+        """Alias to `get_initial_value`."""
+        return cls.get_initial_value()
 
     @classmethod
     def get(cls, key: str, default: Any = None, mapping: Dict[str, Any] = None) -> Any:
@@ -30,16 +40,21 @@ class EnumWithDict(Enum):
         """
         # Use the initial value as the default if no default is provided
         if default is None:
-            default = cls.get_initial()
+            default_key = cls.get_initial_key()
+
+            if mapping is not None:
+                default = mapping[default_key]
+            else:
+                default = cls.to_dict()[default_key]
         
         # If a mapping is provided, try to get the value from it
         if mapping is not None:
             cls.validate_mapping_keys(mapping)
 
             return mapping.get(key, default)
-        
-        # Fallback to the enum's default values if no mapping is provided or the key is not in the mapping
-        return cls.to_dict().get(key, default)
+        else:
+            # Fallback to the enum's default values if no mapping is provided or the key is not in the mapping
+            return cls.to_dict().get(key, default)
     
     @classmethod
     def keys(cls, as_list = True) -> Union[List[str], KeysView[str]]:
