@@ -104,6 +104,9 @@ This mapping operation does not alter the values within the Enum itself; instead
 
 Internally, `validate_mapping_keys` is invoked to confirm that the keys align with the Enum members, but the value types remain arbitrary.
 
+> :bulb: **Helpful Hint:** Using the `.map` method ensures that the mapping maintains the same keys as the `Enum` members, allowing for a direct correspondence. This method validates that all `Enum` members are accounted for in the mapping, preventing omissions or the inclusion of extraneous keys. It's a safeguard to ensure that your mapping is comprehensive and accurately reflects the `Enum` structure.
+
+
 ```python
 # Define the key mapping
 key_mapping = {
